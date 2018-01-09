@@ -33,7 +33,7 @@ describe('User', () => {
     it('return true if they are friends', () => {
       let user = new User([aFriend])
 
-      assert.equal(false, user.isFriendWith(aFriend))
+      assert.equal(true, user.isFriendWith(aFriend))
     })
   })
 })

@@ -10,6 +10,17 @@ module.exports = class User {
   }
 
   isFriendWith (stranger) {
-    return false
+    let isFriend = false
+    let friends = this.getFriends()
+
+    for (let i = 0; i < friends.length; i++) {
+      let friend = friends[i]
+      if (friend == stranger) {
+        isFriend = true
+        break
+      }
+    }
+
+    return isFriend
   }
 }

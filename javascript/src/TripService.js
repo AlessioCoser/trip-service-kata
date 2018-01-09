@@ -14,26 +14,11 @@ class TripService {
       throw new Error('User not logged in.')
     }
 
-    if (this.userIsFriendWith(user, this.loggedUser)) {
+    if (user.isFriendWith(this.loggedUser)) {
       return this.tripDAO.findTripsByUser(user)
     }
 
     return []
-  }
-
-  userIsFriendWith (user, anotherUser) {
-    let isFriend = false
-    let friends = user.getFriends()
-
-    for (let i = 0; i < friends.length; i++) {
-      let friend = friends[i]
-      if (friend == this.loggedUser) {
-        isFriend = true
-        break
-      }
-    }
-
-    return isFriend
   }
 }
 
