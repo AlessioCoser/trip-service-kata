@@ -4,8 +4,9 @@ let UserSession = require('./UserSession')
 let TripDAO = require('./TripDAO')
 
 class TripService {
-  constructor (loggedUser = UserSession.getLoggedUser()) {
+  constructor (loggedUser = UserSession.getLoggedUser(), tripDAO = TripDAO) {
     this.loggedUser = loggedUser
+    this.tripDAO = tripDAO
   }
 
   getTripsByUser (user) {
@@ -21,16 +22,12 @@ class TripService {
         }
       }
       if (isFriend) {
-        tripList = this.findTripsByUser(user)
+        tripList = this.tripDAO.findTripsByUser(user)
       }
       return tripList
     } else {
       throw new Error('User not logged in.')
     }
-  }
-
-  findTripsByUser (user) {
-    return TripDAO.findTripsByUser(user)
   }
 }
 

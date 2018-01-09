@@ -22,15 +22,11 @@ describe('TripService', () => {
   })
 
   it('returns a trip list when loggedUser is a friend', () => {
+    let FakeTripDAO = {findTripsByUser: (user) => [aTrip]}
+
     let sampleUser = { name: 'Sample User', getFriends: () => [loggedUser] }
-    let tripService = new TestableTripService(loggedUser)
+    let tripService = new TripService(loggedUser, FakeTripDAO)
 
     assert.deepEqual([aTrip], tripService.getTripsByUser(sampleUser))
   })
 })
-
-class TestableTripService extends TripService {
-  findTripsByUser (user) {
-    return [aTrip]
-  }
-}
