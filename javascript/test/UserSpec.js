@@ -21,13 +21,19 @@ describe('User', () => {
   })
 
   describe('isFriendWith()', () => {
-    it('return false if they are not friends', () => {
-      let aFriend = new User()
-      let aStranger = new User()
+    let aFriend = new User()
 
+    it('return false if they are not friends', () => {
+      let aStranger = new User()
       let user = new User([aFriend])
 
       assert.equal(false, user.isFriendWith(aStranger))
+    })
+
+    it('return true if they are friends', () => {
+      let user = new User([aFriend])
+
+      assert.equal(false, user.isFriendWith(aFriend))
     })
   })
 })
