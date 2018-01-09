@@ -1,11 +1,12 @@
 'use strict'
 
 const assert = require('assert')
+const User = require('../src/User')
 const TripService = require('../src/TripService')
 
 let aTrip = 'Barcellona'
-let loggedUser = { name: 'Logged User' }
-let anotherUser = { name: 'Another User' }
+let loggedUser = new User([])
+let anotherUser = new User([])
 
 describe('TripService', () => {
   it('throws an error if user is not logged in', () => {
@@ -15,7 +16,7 @@ describe('TripService', () => {
   })
 
   it('returns empty array when loggedUser is not a friend', () => {
-    let sampleUser = { name: 'Sample User', getFriends: () => [anotherUser] }
+    let sampleUser = new User([anotherUser])
     let tripService = new TripService(loggedUser)
 
     assert.deepEqual([], tripService.getTripsByUser(sampleUser))
@@ -24,7 +25,7 @@ describe('TripService', () => {
   it('returns a trip list when loggedUser is a friend', () => {
     let FakeTripDAO = {findTripsByUser: (user) => [aTrip]}
 
-    let sampleUser = { name: 'Sample User', getFriends: () => [loggedUser] }
+    let sampleUser = new User([loggedUser])
     let tripService = new TripService(loggedUser, FakeTripDAO)
 
     assert.deepEqual([aTrip], tripService.getTripsByUser(sampleUser))
