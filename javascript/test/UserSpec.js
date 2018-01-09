@@ -11,5 +11,12 @@ describe('User', () => {
 
       assert.deepEqual([], user.getFriends())
     })
+
+    it('return friend list with some friends', () => {
+      let friend = new User()
+      let user = new User([friend])
+
+      assert.deepEqual([friend], user.getFriends())
+    })
   })
 })
