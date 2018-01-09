@@ -19,4 +19,15 @@ describe('User', () => {
       assert.deepEqual([friend], user.getFriends())
     })
   })
+
+  describe('isFriendWith()', () => {
+    it('return false if they are not friends', () => {
+      let aFriend = new User()
+      let aStranger = new User()
+
+      let user = new User([aFriend])
+
+      assert.equal(false, user.isFriendWith(aStranger))
+    })
+  })
 })

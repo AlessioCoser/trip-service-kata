@@ -8,4 +8,8 @@ module.exports = class User {
   getFriends () {
     return this._friends
   }
+
+  isFriendWith (stranger) {
+    return false
+  }
 }
