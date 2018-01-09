@@ -3,6 +3,7 @@
 const assert = require('assert')
 const TripService = require('../src/TripService')
 
+let aTrip = 'Barcellona'
 let loggedUser = { name: 'Logged User' }
 let anotherUser = { name: 'Another User' }
 
@@ -19,4 +20,17 @@ describe('TripService', () => {
 
     assert.deepEqual([], tripService.getTripsByUser(sampleUser))
   })
+
+  it('returns a trip list when loggedUser is a friend', () => {
+    let sampleUser = { name: 'Sample User', getFriends: () => [loggedUser] }
+    let tripService = new TestableTripService(loggedUser)
+
+    assert.deepEqual([aTrip], tripService.getTripsByUser(sampleUser))
+  })
 })
+
+class TestableTripService extends TripService {
+  findTripsByUser (user) {
+    return [aTrip]
+  }
+}

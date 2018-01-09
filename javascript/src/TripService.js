@@ -21,12 +21,16 @@ class TripService {
         }
       }
       if (isFriend) {
-        tripList = TripDAO.findTripsByUser(user)
+        tripList = this.findTripsByUser(user)
       }
       return tripList
     } else {
       throw new Error('User not logged in.')
     }
+  }
+
+  findTripsByUser (user) {
+    return TripDAO.findTripsByUser(user)
   }
 }
 
