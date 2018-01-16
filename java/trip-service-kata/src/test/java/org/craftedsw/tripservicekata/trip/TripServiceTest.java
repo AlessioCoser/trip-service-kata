@@ -47,11 +47,11 @@ public class TripServiceTest {
     public void returns_trip_list_if_loggedUser_and_user_are_friends() throws Exception {
         TripService tripService = new TripService(aLoggedUser);
 
-        User friendUser = anUserWithFriend(aLoggedUser);
+        Trip aTrip = new Trip();
+        User friendUser = anUserWithFriendAndTrip(aLoggedUser, aTrip);
         List<Trip> tripsByUser = tripService.getTripsByUser(friendUser);
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(aTrip, tripsByUser.get(0));
     }
 
     private User anUserWithFriends() {
@@ -60,9 +60,10 @@ public class TripServiceTest {
         return user;
     }
 
-    private User anUserWithFriend(User friend) {
+    private User anUserWithFriendAndTrip(User friend, Trip trip) {
         User user = new User();
         user.addFriend(friend);
+        user.addTrip(trip);
         return user;
     }
 }
