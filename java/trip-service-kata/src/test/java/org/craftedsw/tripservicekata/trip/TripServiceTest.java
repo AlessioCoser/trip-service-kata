@@ -28,8 +28,7 @@ public class TripServiceTest {
 
         List<Trip> tripsByUser = tripService.getTripsByUser(anUser);
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(0, tripsByUser.size());
     }
 
     @Test
@@ -39,19 +38,17 @@ public class TripServiceTest {
         User userWithFriends = anUserWithFriends();
         List<Trip> tripsByUser = tripService.getTripsByUser(userWithFriends);
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(0, tripsByUser.size());
     }
 
     @Test
     public void returns_trip_list_if_loggedUser_and_user_are_friends() throws Exception {
-        TripService tripService = new TripService(aLoggedUser);
+        TripService tripService = new TestableTripService(aLoggedUser);
 
-        User friendUser = anUserWithFriend(aLoggedUser);
+        User friendUser = anUserWithATripAndFriendOf(aLoggedUser);
         List<Trip> tripsByUser = tripService.getTripsByUser(friendUser);
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(1, tripsByUser.size());
     }
 
     private User anUserWithFriends() {
@@ -60,9 +57,21 @@ public class TripServiceTest {
         return user;
     }
 
-    private User anUserWithFriend(User friend) {
+    private User anUserWithATripAndFriendOf(User friend) {
         User user = new User();
         user.addFriend(friend);
+        user.addTrip(new Trip());
         return user;
+    }
+
+    private class TestableTripService extends TripService {
+        public TestableTripService(User loggedUser) {
+            super(loggedUser);
+        }
+
+        @Override
+        protected List<Trip> tripsBy(User user) {
+            return user.trips();
+        }
     }
 }
