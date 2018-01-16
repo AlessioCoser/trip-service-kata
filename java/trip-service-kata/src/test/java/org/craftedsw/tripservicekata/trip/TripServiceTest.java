@@ -12,8 +12,8 @@ import static junit.framework.Assert.assertEquals;
 public class TripServiceTest {
 
     private User notLoggedUser = null;
-    private User anUser = new User();
     private User aLoggedUser = new User();
+    private User anUser = new User();
 
     @Test(expected = UserNotLoggedInException.class)
     public void thows_a_not_logged_in_exception() throws Exception {
@@ -43,9 +43,26 @@ public class TripServiceTest {
         assertEquals(emptyTripList, tripsByUser);
     }
 
+    @Test
+    public void returns_trip_list_if_loggedUser_and_user_are_friends() throws Exception {
+        TripService tripService = new TripService(aLoggedUser);
+
+        User friendUser = anUserWithFriend(aLoggedUser);
+        List<Trip> tripsByUser = tripService.getTripsByUser(friendUser);
+
+        List<Trip> emptyTripList = new ArrayList<Trip>();
+        assertEquals(emptyTripList, tripsByUser);
+    }
+
     private User anUserWithFriends() {
         User user = new User();
         user.addFriend(new User());
+        return user;
+    }
+
+    private User anUserWithFriend(User friend) {
+        User user = new User();
+        user.addFriend(friend);
         return user;
     }
 }
