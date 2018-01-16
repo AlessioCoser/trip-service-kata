@@ -24,7 +24,7 @@ public class TripService {
 		if (loggedUserIsFriendOf(user)) {
 			tripList = user.trips();
 		}
-		
+
 		return tripList;
 	}
 
