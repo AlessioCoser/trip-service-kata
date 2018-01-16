@@ -27,6 +27,6 @@ public class User {
 	}
 
 	public boolean isFriendOf(User someone) {
-		return false;
+		return friends.contains(someone);
 	}
 }
