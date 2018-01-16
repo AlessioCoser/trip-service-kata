@@ -21,21 +21,10 @@ public class TripService {
 
 		List<Trip> tripList = new ArrayList<Trip>();
 
-		if (loggedUserIsFriendOf(user)) {
+		if (user.isFriendOf(loggedUser)) {
 			tripList = user.trips();
 		}
 
 		return tripList;
-	}
-
-	private boolean loggedUserIsFriendOf(User user) {
-		boolean isFriend = false;
-		for (User friend : user.getFriends()) {
-			if (friend.equals(loggedUser)) {
-				isFriend = true;
-				break;
-			}
-		}
-		return isFriend;
 	}
 }
