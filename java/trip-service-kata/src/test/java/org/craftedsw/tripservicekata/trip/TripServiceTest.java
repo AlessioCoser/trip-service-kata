@@ -6,18 +6,13 @@ import org.junit.Test;
 
 public class TripServiceTest {
 
+    private User notLoggedUser = null;
+
+
     @Test(expected = UserNotLoggedInException.class)
     public void thows_a_not_logged_in_exception() throws Exception {
-        TripService tripService = new TestableTripService();
+        TripService tripService = new TripService(notLoggedUser);
 
         tripService.getTripsByUser(null);
-    }
-}
-
-class TestableTripService extends TripService {
-
-    @Override
-    protected User getLoggedUser() {
-        return null;
     }
 }
