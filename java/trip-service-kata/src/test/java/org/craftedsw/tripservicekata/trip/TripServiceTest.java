@@ -11,56 +11,54 @@ import static junit.framework.Assert.assertEquals;
 
 public class TripServiceTest {
 
-    private User notLoggedUser = null;
-    private User aLoggedUser = new User();
-    private User anUser = new User();
+    private User loggedUser = new User();
 
     @Test(expected = UserNotLoggedInException.class)
     public void thows_a_not_logged_in_exception() throws Exception {
-        TripService tripService = new TripService(notLoggedUser);
+        User notLoggedUser = null;
 
-        tripService.getTripsByUser(null);
+        TripService service = new TripService(notLoggedUser);
+
+        service.getTripsByUser(null);
     }
 
     @Test
     public void returns_empty_list_if_user_has_no_friends() throws Exception {
-        TripService tripService = new TripService(aLoggedUser);
+        TripService service = new TripService(loggedUser);
 
-        List<Trip> tripsByUser = tripService.getTripsByUser(anUser);
+        List<Trip> tripsByUser = service.getTripsByUser(new User());
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(new ArrayList<Trip>(), tripsByUser);
     }
 
     @Test
     public void returns_empty_list_if_loggedUser_and_user_are_not_friends() throws Exception {
-        TripService tripService = new TripService(aLoggedUser);
+        TripService service = new TripService(loggedUser);
 
-        User userWithFriends = anUserWithFriends();
-        List<Trip> tripsByUser = tripService.getTripsByUser(userWithFriends);
+        User user = userWithFriends();
+        List<Trip> trips = service.getTripsByUser(user);
 
-        List<Trip> emptyTripList = new ArrayList<Trip>();
-        assertEquals(emptyTripList, tripsByUser);
+        assertEquals(new ArrayList<Trip>(), trips);
     }
 
     @Test
     public void returns_trip_list_if_loggedUser_and_user_are_friends() throws Exception {
-        TripService tripService = new TripService(aLoggedUser);
+        TripService service = new TripService(loggedUser);
 
-        Trip aTrip = new Trip();
-        User friendUser = anUserWithFriendAndTrip(aLoggedUser, aTrip);
-        List<Trip> tripsByUser = tripService.getTripsByUser(friendUser);
+        Trip trip = new Trip();
+        User user = userWithFriendAndTrip(loggedUser, trip);
+        List<Trip> trips = service.getTripsByUser(user);
 
-        assertEquals(aTrip, tripsByUser.get(0));
+        assertEquals(trip, trips.get(0));
     }
 
-    private User anUserWithFriends() {
+    private User userWithFriends() {
         User user = new User();
         user.addFriend(new User());
         return user;
     }
 
-    private User anUserWithFriendAndTrip(User friend, Trip trip) {
+    private User userWithFriendAndTrip(User friend, Trip trip) {
         User user = new User();
         user.addFriend(friend);
         user.addTrip(trip);
