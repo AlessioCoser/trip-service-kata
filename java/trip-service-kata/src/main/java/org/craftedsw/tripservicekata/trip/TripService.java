@@ -20,11 +20,9 @@ public class TripService {
 			throw new UserNotLoggedInException();
 		}
 
-		if (!user.isFriendWith(loggedUser)) {
-			return noTrips();
-		}
-
-		return tripsBy(user);
+		return user.isFriendWith(loggedUser)
+				? tripsBy(user)
+				: noTrips();
 	}
 
 	private ArrayList<Trip> noTrips() {
